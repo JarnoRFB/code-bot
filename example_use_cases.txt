@@ -1,0 +1,75 @@
+Output for "demo_pylint.py"
+
+
+No config file found, using default configuration
+************* Module demo_pylint
+C:  2, 0: Trailing whitespace (trailing-whitespace)
+C: 16, 0: Exactly one space required around assignment
+            encoded=encoded + letters[x]
+                   ^ (bad-whitespace)
+C:  1, 0: Missing module docstring (missing-docstring)
+C:  5, 0: Invalid constant name "shift" (invalid-name)
+C:  6, 0: Invalid constant name "choice" (invalid-name)
+C:  7, 0: Invalid constant name "word" (invalid-name)
+C:  8, 0: Invalid constant name "letters" (invalid-name)
+C:  9, 0: Invalid constant name "encoded" (invalid-name)
+
+------------------------------------------------------------------
+Your code has been rated at 5.79/10 
+
+
+**beginner level:**
+
+- how much system initiative?
+- how explicitly do we want to categorize the user?
+
+
+--> examples for PEP8 convention violations, not errors:
+
+A: system
+B: user
+
+
+A: Hi, what can do for you?
+B: I need some help with my code.
+A: Sure, can you please post your code in the window?
+B: Okay.
+A: Alright, it seems that you rather a beginner at coding. Is this right?    ** user model abfragen oder vllt auch nicht?
+B: Yes, that's right.
+A: Okay, so first of all there is an unnecessary blank in line 2. Remove that.
+B: Done.
+A: At the beginning of the document you should specify what the script does. Basically this includes its function and command line syntax, environment variables and files. You use triple quotes to start and end the description.
+B: Okay thanks.
+A: Do you want to hear further suggestions for improvement?
+B: Yes please.
+A: In lines 5,6,7,8 and 9 the names for your constants are not following the required standards.  They should be written in all capital letters and you use underscores to separate the words, for example MAX_OVERFLOW.
+B: I will change that.
+A: In line 16 there is a further violation, as you forgot the blanks around the equal sign. Put exactly one blank before and one after it.
+B: Okay.
+A: Shall I repeat anything?
+B: What was again the problem with line 6?
+A: .... Is there anything else you want to know?
+B: Yes, where can I find all these conventions?
+
+
+**advanced level** (=over evaluation >7 or >6 ?)
+
+
+A: Hi, what can do for you?
+B: I need some help with my code.
+A: Sure, can you please post your code in the window?
+B: Okay.
+A: Alright, it seems that you are an advanced programmmer. Is this right?    ** user model abfragen oder vllt auch nicht?
+B: Yes, that's right.
+A: Okay, first of all remove the trailing whitespace in line 2.
+B: Done.
+A: Apart from that, you forgot the docstring at the beginning of the document.
+B: Okay thanks.
+A: Do you want to hear further suggestions for improvement?
+B: Yes please.
+A: In lines 5,6,7,8 and 9 the names for the constants are invalid.
+B: I will change that.
+....
+
+
+
