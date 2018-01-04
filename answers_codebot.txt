@@ -1,0 +1,49 @@
+Entwurf, noch kein json format
+
+C0103: Invalid %s name "%s"
+"Beg": "In python, there are naming conventions for the different types that you should pay attention. For example, constants should be all in capital letters and use underscores, e.g. MAX_OVERFLOW."
+"Adv": "You violated the naming convention for the %s name. Please change it according to the conventions."
+
+C0111: Missing %s docstring
+"Beg": "You should specify what a module, function, class or method does. This is so-called documentation string includes for example the command line syntax, environment variables and files. You use triple quotes to start and end the description."
+"Adv": "Remember to include docstrings to document what you code does. Using docstrings will save you time and troubleshooting."
+
+C0301: Line too long (%s/%s)
+"Beg": "This line is too long. You should limit all lines to a maximum of 79 characters according to Python conventions."
+"Adv": "You exceeded the recommended line length of 79 characters. For flowing long blocks of text with fewer structural restrictions such as docstrings or comments, the line length should be limited to 72 characters."
+
+C0202: Class method %s should have cls as first argument
+"Beg": "In this line there is a class method. Class methods should always have cls as first name. You should change that."
+"Adv": "Always use cls for the first argument to class methods. The cls name is used to easily differentiate class methods from instance methods. Always use self for the first argument to instance methods."
+
+E0213: Method should have "self" as first argument
+"Beg": "In this line there is an instance method. INstance methods should always have self as first name. You should change that."
+"Adv": "The first argument of an instance method has to be called self. This is nothing more than a convention: the name self has absolutely no special meaning to Python. Note, however, that by not following the convention your code may be less readable to other Python programmers."
+
+E0601: Using variable %r before assignment
+"Beg": "In this line, you accessed a local variable before you assigned it."
+"Adv": "You accessed a local variable before its assignment."
+
+E0602: Undefined variable %r
+"Beg": "You used a variable that is undefined. Remember that you just have to use the equal sign to assign a value to a variable."
+"Adv": "There is an undefined variable is this line. Always assign a variable before accessing it."
+
+E0104: Return outside function
+"Beg": "You wrote a "return" that is outside of its function. You might have to change the indentation of the return statement."
+"Adv": "There is a return statement outside of a function."
+
+E0107: Use of the non-existent %s operator
+"Beg": "You have used an operator which does not exist in Python. Remember that for example the operators - and ++ from C cannot be used in Python. Use += or -= instead!"
+"Adv": "You used a non-existent operator in this line, possibly a wrong pre- or post-increment or decrement operator."
+
+E1102: %s is not callable
+"Beg": 
+"Adv":
+
+E1121: Too many positional arguments for function call
+"Beg":
+"Adv":
+
+
+
+

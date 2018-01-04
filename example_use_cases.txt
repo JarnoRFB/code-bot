@@ -30,10 +30,10 @@ A: system
 B: user
 
 
-A: Hi, what can do for you?
+A: Hi, what can I do for you?
 B: I need some help with my code.
-A: Sure, can you please post your code in the window?
-B: Okay.
+A: Sure, can you please post the path to your file that you want to check?
+B: Desktop/my_project/demo.py
 A: Alright, it seems that you rather a beginner at coding. Is this right?    ** user model abfragen oder vllt auch nicht?
 B: Yes, that's right.
 A: Okay, so first of all there is an unnecessary blank in line 2. Remove that.
