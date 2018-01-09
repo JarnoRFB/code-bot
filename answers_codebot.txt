@@ -1,23 +1,26 @@
 Entwurf, noch kein json format
 
+- vielleicht nach jeder Antwort für Beginners "Reply with yes when you have changed the code and we can continue." o.ä.?
+
+
 C0103: Invalid %s name "%s"
-"Beg": "In python, there are naming conventions for the different types that you should pay attention. For example, constants should be all in capital letters and use underscores, e.g. MAX_OVERFLOW."
+"Beg": "In python, there are naming conventions for the different types that you should pay attention to. For example, constants should be all in capital letters and use underscores, e.g. MAX_OVERFLOW."
 "Adv": "You violated the naming convention for the %s name. Please change it according to the conventions."
 
 C0111: Missing %s docstring
-"Beg": "You should specify what a module, function, class or method does. This is so-called documentation string includes for example the command line syntax, environment variables and files. You use triple quotes to start and end the description."
-"Adv": "Remember to include docstrings to document what you code does. Using docstrings will save you time and troubleshooting."
+"Beg": "You should specify what a module, function, class or method does. This so-called documentation string includes for example the command line syntax, environment variables and files. You use triple quotes to start and end the description. The doc strings allows to be inspected by the programmer at run time which is very convenient."
+"Adv": "Remember to include docstrings to document what your code does. Using docstrings will save you time and troubleshooting."
 
 C0301: Line too long (%s/%s)
-"Beg": "This line is too long. You should limit all lines to a maximum of 79 characters according to Python conventions."
+"Beg": "This line is too long. You should limit all lines to a maximum of 79 characters according to the Python conventions. The limits are chosen to avoid wrapping in editors with the window width set to 80. Wrapping disrupts the visual structure of the code and makes it more difficult to understand."
 "Adv": "You exceeded the recommended line length of 79 characters. For flowing long blocks of text with fewer structural restrictions such as docstrings or comments, the line length should be limited to 72 characters."
 
 C0202: Class method %s should have cls as first argument
-"Beg": "In this line there is a class method. Class methods should always have cls as first name. You should change that."
+"Beg": "In this line there is a class method. Class methods should always have cls as first name."
 "Adv": "Always use cls for the first argument to class methods. The cls name is used to easily differentiate class methods from instance methods. Always use self for the first argument to instance methods."
 
 E0213: Method should have "self" as first argument
-"Beg": "In this line there is an instance method. INstance methods should always have self as first name. You should change that."
+"Beg": "In this line there is an instance method. Instance methods should always have self as first name. You should change that."
 "Adv": "The first argument of an instance method has to be called self. This is nothing more than a convention: the name self has absolutely no special meaning to Python. Note, however, that by not following the convention your code may be less readable to other Python programmers."
 
 E0601: Using variable %r before assignment
