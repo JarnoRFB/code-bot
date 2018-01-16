@@ -6,7 +6,7 @@ from chatterbot.logic import LogicAdapter
 from pylint.reporters.json import JSONReporter
 from chatterbot.conversation import Statement
 from pylint import lint
-
+from codebot_templates import templates
 
 class WritableObject(object):
     """Dummy output stream for pylint"""
@@ -28,7 +28,6 @@ class NullIO(StringIO):
 
 def silent(fn):
     """Decorator to silence functions."""
-
     def silent_fn(*args, **kwargs):
         saved_stderr = sys.stderr
         sys.stderr = NullIO()
@@ -42,8 +41,14 @@ def silent(fn):
 run_pylint = silent(lint.Run)
 
 
+
+def docstring_parser(x):
+    return (x.split()[1], )
+
 class PylintAdapter(LogicAdapter):
     rcfilename = 'pylintrc'
+
+    templates = templates
 
     def __init__(self, **kwargs):
         self._filepath = 'chatbot.py'
@@ -57,7 +62,11 @@ class PylintAdapter(LogicAdapter):
 
         pylint_output = self._run_pylint()
 
-        selected_statement = Statement(pylint_output[0]['message'])
+        template = self._get_template(pylint_output)
+        template.parse(pylint_output[0]['message'])
+        response = template.render()
+
+        selected_statement = Statement(response)
         selected_statement.confidence = confidence
 
         return selected_statement
@@ -73,6 +82,10 @@ class PylintAdapter(LogicAdapter):
         json_str = ''.join(pylint_output.read())
 
         return json.loads(json_str)
+
+    def _get_template(self, pylint_output):
+        return self.templates[pylint_output[0]['message-id']][0]
+
 
     def _create_rcfile(self):
         with open(self.rcfilename, 'w') as rcfile:

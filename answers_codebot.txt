@@ -36,7 +36,7 @@ E0104: Return outside function
 "Adv": "There is a return statement outside of a function."
 
 E0107: Use of the non-existent %s operator
-"Beg": "You have used an operator which does not exist in Python. Remember that for example the operators - and ++ from C cannot be used in Python. Use += or -= instead!"
+"Beg": "You have used an operator which does not exist in Python. Remember that for example the operators -- and ++ from C cannot be used in Python. Use += or -= instead!"
 "Adv": "You used a non-existent operator in this line, possibly a wrong pre- or post-increment or decrement operator."
 
 E1102: %s is not callable

@@ -1,15 +1,12 @@
-import sys
 from chatterbot import ChatBot
 
 bot = ChatBot(
-    'Norman',
+    'CodeBot',
     storage_adapter='chatterbot.storage.SQLStorageAdapter',
     input_adapter='chatterbot.input.TerminalAdapter',
     output_adapter='chatterbot.output.TerminalAdapter',
     logic_adapters=[
         'adapters.PylintAdapter'
-        # 'chatterbot.logic.MathematicalEvaluation',
-        # 'chatterbot.logic.TimeLogicAdapter'
     ],
     database='./database.sqlite3',
 )
