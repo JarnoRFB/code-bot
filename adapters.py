@@ -8,6 +8,7 @@ from chatterbot.conversation import Statement
 from pylint import lint
 from codebot_templates import templates
 
+
 class WritableObject(object):
     """Dummy output stream for pylint"""
 
@@ -52,6 +53,7 @@ class PylintAdapter(LogicAdapter):
 
     def __init__(self, **kwargs):
         self._filepath = 'chatbot.py'
+        self._status = 'expects_file'
         super().__init__(**kwargs)
 
     def can_process(self, statement):
@@ -60,16 +62,34 @@ class PylintAdapter(LogicAdapter):
     def process(self, statement):
         confidence = 1
 
+        if self._status == 'expects_file':
+            return self.store_file(statement)
+        else:
+            return self.suggest_improvement(statement)
+
+
+    def suggest_improvement(self, statement):
         pylint_output = self._run_pylint()
 
         template = self._get_template(pylint_output)
-        template.parse(pylint_output[0]['message'])
-        response = template.render()
+        response = template.render(pylint_output[0])
 
         selected_statement = Statement(response)
-        selected_statement.confidence = confidence
-
+        selected_statement.confidence = 1
         return selected_statement
+
+    def store_file(self, statement):
+        if self._is_valid_file(statement.text):
+            self._filepath = statement.text
+            self._status = 'wants_to_help'
+            selected_statement = Statement('Alright, should I look over your code now?')
+            selected_statement.confidence = 1
+            return selected_statement
+        else:
+            selected_statement = Statement('Sorry but that is no file.')
+            selected_statement.confidence = 1
+            return selected_statement
+
 
     def _run_pylint(self):
         if not os.path.isfile(self.rcfilename):
@@ -90,3 +110,7 @@ class PylintAdapter(LogicAdapter):
     def _create_rcfile(self):
         with open(self.rcfilename, 'w') as rcfile:
             rcfile.write('')
+
+
+    def _is_valid_file(self, filepath):
+        return os.path.isfile(filepath) and (os.path.splitext(filepath)[1] == '.py')

@@ -6,10 +6,14 @@ class Template:
         self.indices = indices
 
     def parse(self, message):
-        self.parsed = tuple((word for i, word in enumerate(message.split()) if i in self.indices))
+        return tuple((word for i, word in enumerate(message.split()) if i in self.indices))
 
-    def render(self):
-        return self.template_str % (self.parsed)
+    def render(self, context):
+        parsed = tuple((word for i, word in enumerate(context['message'].split()) if i in self.indices))
+        formated_template = 'In line %d you ' % context['line']
+        formated_template += self.template_str % (parsed)
+        return formated_template
+
 
 def make_templates(beginner_template_str, advanced_template_str, indices):
     return (Template(beginner_template_str, indices),

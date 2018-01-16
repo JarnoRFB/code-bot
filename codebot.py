@@ -12,7 +12,7 @@ bot = ChatBot(
 )
 
 
-print('Hello!')
+print('Hello! I am codebot. Please specify the path to the file you want me to help with.')
 while True:
     try:
         bot_input = bot.get_response(None)
