@@ -12,6 +12,7 @@ class Template:
         parsed = tuple((word for i, word in enumerate(context['message'].split()) if i in self.indices))
         formated_template = 'In line %d you ' % context['line']
         formated_template += self.template_str % (parsed)
+        formated_template += ' Do you want to correct or ignore the error?'
         return formated_template
 
 
