@@ -18,4 +18,4 @@ class Template:
 
 def make_templates(beginner_template_str, advanced_template_str, indices):
     return (Template(beginner_template_str, indices),
-            Template(advanced_template_str, advanced_template_str))
+            Template(advanced_template_str, indices))

@@ -3,7 +3,7 @@ from template import make_templates
 
 
 templates = {
-        'C0103': make_templates('should pay attention to the naming convention for the %s "%s". In Python, there are diffent naming convention for the different types such as constants, varibales and classes. For example, constants should be all in capital letters.', 'violated the naming convention for the %s name "%s". You should change it according to the conventions.', [1,3]),
+        'C0103': make_templates('should pay attention to the naming convention for the %s %s. In Python, there are diffent naming convention for the different types such as constants, varibales and classes. For example, constants should be all in capital letters.', 'violated the naming convention for the %s name %s. You should change it according to the conventions.', [0, 2]),
         'C0111': make_templates('should specify what a %s does. This so-called documentation string includes for example the command line syntax, environment variables and files. You use triple quotes to start and end the description. Doc strings are convenient as they allow to be inspected by the programmer at run time.', 'should remember to include docstrings to document what your %s does. Using docstrings will save you time and troubleshooting.', [1]),
         'C0301': make_templates('should limit the line length to a maximum of 79 characters according to the Python conventions. The limits are chosen to avoid wrapping in editors with the window width set to 80. Wrapping disrupts the visual structure of the code and makes it more difficult to understand.', 'exceeded the recommended line length of 79 characters. For flowing long blocks of text with fewer structural restrictions such as docstrings or comments, the line length should be limited to 72 characters.', []),
         'C0202': make_templates('should have cls as first name in your class method %s. The cls name is used to easily differentiate class methods from instance methods, which use self as the first argument to instance methods.', 'should use cls for the first argument to your class method %s. ', [2]),
@@ -21,5 +21,5 @@ templates = {
         'W0301': make_templates('ended a statement by a semicolon, which is not necessary. Semicolons are not necessary in Python unless you are putting more than one statement in a line, which is a poor idea anyway.', 'included a an unnecessary semicolon.', []),
         'W0312': make_templates('should pay attention to the number of tabulations or spaces. Maybe you mixed tabs and spaces. Python interprets tabs and spaces differently, so consistent indentation is critical to the correct interpretation of blocks in Python syntax.', 'used an indent that is not consistent with the indent-string option. By default, indent-string is set to four spaces.', []),
         'W0613': make_templates('used an argument that is not used in the body of its function or method. Either use the argument or delete it in order to solve this error.', 'included an unused argument', []),
-    
+
                  }

@@ -17,5 +17,4 @@ while True:
     try:
         bot_input = bot.get_response(None)
     except(KeyboardInterrupt, EOFError, SystemExit) as e:
-        print(e)
         break
