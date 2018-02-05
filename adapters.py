@@ -92,7 +92,7 @@ class PylintAdapter(LogicAdapter):
         elif self._status == Status.END_CONVERSATION:
             raise SystemExit
 
-    def _exit(self, statement):
+    def _exit(self):
         self._status = Status.END_CONVERSATION
         self._score = get_score(self._filepath)
         response = Statement(
@@ -153,7 +153,7 @@ class PylintAdapter(LogicAdapter):
             selected_statement.confidence = 1
             return selected_statement
         except ValueError:
-            return self._exit(statement)
+            return self._exit()
 
     def _analyze_code(self):
         pylint_output = self._run_pylint()
