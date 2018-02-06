@@ -1,33 +1,13 @@
-import json
 import os
-import sys
-from io import StringIO
 from chatterbot.logic import LogicAdapter
 from chatterbot.conversation import Statement
 from codebot_templates import templates
-from pylint import epylint as lint
-import re
+
 from enum import Enum, auto
 from intent_classifier import DialogFlowIntentClassifier
 from credentials import credentials
-
-
-def run_pylint(filepath):
-    output, _ = lint.py_run(command_options=f'{filepath} --score=y --rcfile=pylintrc --output-format=json',
-                            return_std=True)
-    return output.read()
-
-
-def get_score(filepath):
-    output, _ = lint.py_run(command_options=f'{filepath} --score=y --rcfile=pylintrc --output-format=parseable',
-                            return_std=True)
-    return float(parse_score(output.read()))
-
-
-def parse_score(text_report):
-    lines = text_report.split('\n')
-    m = re.search(r'(-?\d\.\d\d)/10', lines[-3])
-    return m.group(1)
+from linter import PyLinter
+from exceptions import NoMoreErrors
 
 
 class ProficiencyLevels(Enum):
@@ -49,7 +29,6 @@ class Status(Enum):
 
 
 class PylintAdapter(LogicAdapter):
-    rcfilename = 'pylintrc'
     _threshold = 5
 
     templates = templates
@@ -65,6 +44,7 @@ class PylintAdapter(LogicAdapter):
         self._score = None
         self._n_messages = None
         self._last_send_message_id = None
+        self._linter = PyLinter()
 
         super().__init__(**kwargs)
 
@@ -78,13 +58,13 @@ class PylintAdapter(LogicAdapter):
             return self._exit()
 
         if self._status == Status.EXPECTS_FILE:
-            return self.store_file(statement)
+            return self._store_file(statement)
         elif self._status == Status.DETERMINE_PROFICIENCY:
             return self._determine_proficiency(statement)
         elif self._status == Status.CONFIRM_PROFICIENCY:
             return self._confirm_proficiency(statement)
         elif self._status == Status.WANTS_TO_HELP:
-            return self.suggest_improvement(statement)
+            return self._suggest_improvement(statement)
         elif self._status == Status.EXPECTS_DECISION:
             return self._process_decision(statement)
         elif self._status == Status.WAIT_FOR_CORRECTION:
@@ -94,16 +74,22 @@ class PylintAdapter(LogicAdapter):
 
     def _exit(self):
         self._status = Status.END_CONVERSATION
-        self._score = get_score(self._filepath)
+        self._score = self._linter.score(self._filepath)
         response = Statement(
-            f'It was fun to code with you! You improved your score from {self._first_score} to {self._score} out of 10 possible points. See you later')
+            'It was fun to code with you! You improved your score from {} to {} out of 10 possible points. See you later'.format(
+                self._first_score, self._score))
         response.confidence = 1
         return response
 
+    def _respond_to_no_more_errors(self):
+        response = self._exit()
+        response.text = 'There are no more errors in your code. ' + response.text
+        return response
+
     def _check_correction(self, statement):
-        pylint_output, score, n_messages = self._analyze_code()
-        print(pylint_output)
-        _, next_message = self._get_first_error_in_db(pylint_output)
+        messages, n_messages = self._analyze_code()
+        n_messages = len(messages)
+        _, next_message = self._get_first_error_in_db(messages)
         correction_succeded = (n_messages != self._n_messages
                                and self._last_send_message_id != next_message['message-id'])
         if correction_succeded:
@@ -134,7 +120,7 @@ class PylintAdapter(LogicAdapter):
             selected_statement.confidence = 1
             return selected_statement
 
-        elif intent == 'Confirmation':
+        elif intent in ('Confirmation', 'Correction'):
             self._status = Status.WAIT_FOR_CORRECTION
             selected_statement = Statement('Tell me once you have corrected the issue.')
             selected_statement.confidence = 1
@@ -142,43 +128,40 @@ class PylintAdapter(LogicAdapter):
         else:
             raise ValueError('No matched intent')
 
-    def suggest_improvement(self, statement):
-        pylint_output, score, n_messages = self._analyze_code()
-        self._n_messages = n_messages
+    def _suggest_improvement(self, statement):
         try:
-            response = self._get_response(pylint_output)
+            messages = self._analyze_code()
+            self._n_messages = len(messages)
+
+            response = self._get_response(messages)
 
             self._status = Status.EXPECTS_DECISION
             selected_statement = Statement(response)
             selected_statement.confidence = 1
             return selected_statement
+
         except ValueError:
             return self._exit()
+        except NoMoreErrors:
+            return self._respond_to_no_more_errors()
 
     def _analyze_code(self):
-        pylint_output = self._run_pylint()
-        n_messages = len(pylint_output)
-        score = get_score(self._filepath)  # TODO is this neccessary
-        return pylint_output, score, n_messages
+        messages = self._linter.lint(self._filepath)
+        if not messages:
+            raise NoMoreErrors()
+        return messages
 
-    def store_file(self, statement):
+    def _store_file(self, statement):
         if self._is_valid_file(statement.text):
             self._filepath = statement.text
             self._status = Status.DETERMINE_PROFICIENCY
-            selected_statement = Statement('Alright, should I look over your code now?')
-            selected_statement.confidence = 1
-            return selected_statement
+            response = Statement('Alright, should I look over your code now?')
+            response.confidence = 1
+            return response
         else:
-            selected_statement = Statement('Sorry but that is no file.')
-            selected_statement.confidence = 1
-            return selected_statement
-
-    def _run_pylint(self):
-        if not os.path.isfile(self.rcfilename):
-            self._create_rcfile()
-        pylint_output = run_pylint(self._filepath)
-        json_str = ''.join(pylint_output)
-        return json.loads(json_str)
+            response = Statement('Sorry but that is no file.')
+            response.confidence = 1
+            return response
 
     def _get_response(self, pylint_output):
         proficiency_templates, message = self._get_first_error_in_db(pylint_output)
@@ -196,17 +179,13 @@ class PylintAdapter(LogicAdapter):
             if proficiency_templates is not None:
                 return proficiency_templates, message
 
-        raise ValueError('No more errors.')
-
-    def _create_rcfile(self):
-        with open(self.rcfilename, 'w') as rcfile:
-            rcfile.write('')
+        raise NoMoreErrors()
 
     def _is_valid_file(self, filepath):
         return os.path.isfile(filepath) and (os.path.splitext(filepath)[1] == '.py')
 
     def _determine_proficiency(self, statement):
-        score = get_score(self._filepath)
+        score = self._linter.score(self._filepath)
         self._first_score = score
         if score < self._threshold:
             self._proficiency_level = ProficiencyLevels.BEGINNER
@@ -215,10 +194,10 @@ class PylintAdapter(LogicAdapter):
 
         self._status = Status.CONFIRM_PROFICIENCY
         proficiency_str = 'beginner' if self._proficiency_level == ProficiencyLevels.BEGINNER else 'advanced'
-        selected_statement = Statement(
+        response = Statement(
             'From looking at your code you seem to be %s at coding. Is that right?' % proficiency_str)
-        selected_statement.confidence = 1
-        return selected_statement
+        response.confidence = 1
+        return response
 
     def _confirm_proficiency(self, statement):
         intent = self._intent_classifier.classify(statement.text)
@@ -250,6 +229,6 @@ class PylintAdapter(LogicAdapter):
         self._n_errors_to_ignore += 1
 
     def _ignore_forever(self):
-        pylint_output, _, _ = self._analyze_code()
+        pylint_output = self._analyze_code()
         _, message = self._get_first_error_in_db(pylint_output)
-        self._ids_to_ignore.add(message['message-id'])
+        self._linter.ignore(message['symbol'])

@@ -1,0 +1,2 @@
+class NoMoreErrors(Exception):
+    pass
