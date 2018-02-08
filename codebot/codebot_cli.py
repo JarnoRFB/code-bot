@@ -6,7 +6,7 @@ bot = ChatBot(
     input_adapter='chatterbot.input.TerminalAdapter',
     output_adapter='chatterbot.output.TerminalAdapter',
     logic_adapters=[
-        'adapters.PylintAdapter'
+        'codebot.adapters.PylintAdapter'
     ],
     database='./database.sqlite3',
 )
