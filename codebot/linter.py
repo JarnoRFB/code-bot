@@ -29,7 +29,6 @@ class PyLinter:
 
     def _parse_score(self, text_report):
         lines = text_report.split('\n')
-        print('lines ', lines)
         match = re.search(r'(-?\d?\d\.\d\d)/10', lines[-3])
         return float(match.group(1))
 
