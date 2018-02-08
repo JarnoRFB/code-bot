@@ -102,6 +102,16 @@ ENV/
 
 # SQLite databases
 *.db
+*.sqlite3
 
 # Temporary files
 *~
+
+# idea project
+.idea/
+
+# pytest cache
+*/.pytest_cache/
+
+# Pylintrc files
+pylintrc
