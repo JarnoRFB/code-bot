@@ -4,19 +4,18 @@ from pylint import epylint as lint
 class PylintRC:
 
     def __init__(self, filename):
-        # Create RC file one level above due to some strange pylint behavior.
-        self._filename = os.path.join('..', filename)
+        self._filepath = os.path.join(os.getcwd(), filename)
         self.create()
 
     @property
     def filepath(self):
-        return self._filename
+        return self._filepath
 
     def does_exist(self) -> bool:
-        return os.path.isfile(self._filename)
+        return os.path.isfile(self._filepath)
 
     def create(self):
-        with open(self._filename, 'w') as rcfile:
+        with open(self._filepath, 'w') as rcfile:
             rcfile.write(self._generate_rcfile())
 
     def _generate_rcfile(self):
@@ -563,9 +562,9 @@ overgeneral-exceptions=Exception
 
     def ignore(self, symbol):
         wait_for_empty_line = False
-        with open(self._filename, 'r') as fp:
+        with open(self._filepath, 'r') as fp:
             lines = fp.readlines()
-        with open(self._filename, 'w') as fp:
+        with open(self._filepath, 'w') as fp:
             for i, line in enumerate(lines):
                 if line.startswith('disable='):
                     wait_for_empty_line = True

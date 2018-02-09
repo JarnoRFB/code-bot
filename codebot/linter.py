@@ -8,11 +8,10 @@ class PyLinter:
 
     def __init__(self, rcfilepath='pylintrc'):
         self._run_commands = PylintRC(rcfilepath)
-        self._rcfilepath = rcfilepath
 
     def lint(self, filepath) -> dict:
         output, _ = lint.py_run(
-            command_options=f'{filepath} --score=y --rcfile={self._rcfilepath} --output-format=json',
+            command_options=f'{filepath} --score=y --rcfile={self._run_commands.filepath} --output-format=json',
             return_std=True)
         json_str = ''.join(output.read())
         try:
@@ -22,7 +21,7 @@ class PyLinter:
 
     def score(self, filepath) -> float:
         output, _ = lint.py_run(
-            command_options=f'{filepath} --score=y --rcfile={self._rcfilepath} --output-format=parseable',
+            command_options=f'{filepath} --score=y --rcfile={self._run_commands.filepath} --output-format=parseable',
             return_std=True)
         output = output.read()
         return self._parse_score(output)
