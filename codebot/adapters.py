@@ -1,16 +1,15 @@
-import os
-
-import re
 from chatterbot.logic import LogicAdapter
-from chatterbot.conversation import Statement
 from codebot.codebot_templates import templates
-
+from chatterbot.conversation import Statement
 from enum import Enum, auto
 from codebot.intent_classifier import DialogFlowIntentClassifier
 from codebot.credentials import credentials
 from codebot.linter import PyLinter
-from codebot.exceptions import NoMoreErrors
+from codebot.pylint_run_commands import PylintRC
+from codebot.exceptions import NoMoreErrors, ScoreParsingError
 from codebot.response_db import response_db
+from codebot.utils import is_valid_python_file, find_python_file, make_confident_statement
+
 
 class ProficiencyLevels(Enum):
     BEGINNER = 0
@@ -36,18 +35,21 @@ class PylintAdapter(LogicAdapter):
     templates = templates
 
     def __init__(self, **kwargs):
-        self._ids_to_ignore = set()
-        self._n_errors_to_ignore = 0
-        self._filepath = None
-        self._status = Status.EXPECTS_FILE
-        self._proficiency_level = ProficiencyLevels.BEGINNER.value
+        self._linter = PyLinter(run_commands=PylintRC())
         self._intent_classifier = DialogFlowIntentClassifier(credentials['project_id'])
+
+        self._status = Status.EXPECTS_FILE
+        self._proficiency_level = ProficiencyLevels.BEGINNER
+        self._n_errors_to_ignore = 0
+        self._ids_to_ignore = set()
+        self._response = ''
+
+        self._filepath = None
         self._first_score = None
         self._score = None
         self._n_messages = None
-        self._last_send_message_id = None
-        self._linter = PyLinter()
-        self._response = None
+        self._last_send_message = None
+        self._intent = None
 
         super().__init__(**kwargs)
 
@@ -56,23 +58,25 @@ class PylintAdapter(LogicAdapter):
 
     def process(self, statement):
 
-        intent = self._intent_classifier.classify(statement.text)
-        if intent == 'Exit':
+        self._intent = self._intent_classifier.classify(statement.text)
+        if self._intent == 'Exit':
             return self._say_goodbye()
 
         if self._status == Status.EXPECTS_FILE:
             return self._store_file(statement)
         elif self._status == Status.DETERMINE_PROFICIENCY:
-            return self._determine_proficiency(statement)
+            return self._determine_proficiency()
         elif self._status == Status.CONFIRM_PROFICIENCY:
-            self._response = self._confirm_proficiency(statement)
-            return self._suggest_improvement(statement)
+            self._response = self._confirm_proficiency()
+            if isinstance(self._response, Statement):
+                return self._response
+            return self._suggest_improvement()
         elif self._status == Status.WANTS_TO_HELP:
-            return self._suggest_improvement(statement)
+            return self._suggest_improvement()
         elif self._status == Status.EXPECTS_DECISION:
-            return self._process_decision(statement)
+            return self._process_decision()
         elif self._status == Status.WAIT_FOR_CORRECTION:
-            return self._check_correction(statement)
+            return self._check_correction()
         elif self._status == Status.END_CONVERSATION:
             raise SystemExit
 
@@ -80,76 +84,67 @@ class PylintAdapter(LogicAdapter):
         self._status = Status.END_CONVERSATION
         try:
             self._score = self._linter.score(self._filepath)
-        except:
+        except ScoreParsingError:
             self._score = 0
-        response = Statement(response_db['goodbye'].format(
-                self._first_score, self._score))
-        response.confidence = 1
+        response = make_confident_statement(response_db['goodbye'].format(
+            self._first_score, self._score))
         return response
 
     def _respond_to_no_more_errors(self):
         response = self._say_goodbye()
-        response.text = 'There are no more errors in your code. ' + response.text
+        response.text = response_db['no_more_errors'] + response.text
         return response
 
-    def _check_correction(self, statement):
+    def _check_correction(self):
         messages = self._analyze_code()
         n_messages = len(messages)
         _, next_message = self._get_first_error_in_db(messages)
-        correction_succeded = (n_messages != self._n_messages
-                               and self._last_send_message_id != next_message['message-id'])
-        if correction_succeded:
+        correction_succeeded = (n_messages != self._n_messages
+                                and self._last_send_message != next_message)
+        if correction_succeeded:
             self._status = Status.WANTS_TO_HELP
-            selected_statement = Statement('Great you did it!')
-            selected_statement.confidence = 1
+            response = make_confident_statement(response_db['correction_succeeded'])
         else:
-            selected_statement = Statement('The error is still there...')
-            selected_statement.confidence = 1
+            response = make_confident_statement(response_db['correction_failed'])
 
-        return selected_statement
+        return response
 
-    def _process_decision(self, statement):
-        intent = self._intent_classifier.classify(statement.text)
+    def _process_decision(self):
 
-        if intent == 'No_correction_now' or intent == 'Rejection':
+        if self._intent == 'No_correction_now' or self._intent == 'Rejection':
             self._status = Status.WANTS_TO_HELP
             self._ignore_now()
-            response = Statement("Ok I will ignore the error for now.")
-            response.confidence = 1
+            response = make_confident_statement(response_db['ignore_now'])
             return response
 
-        elif intent == 'No_correction_forever':
+        elif self._intent == 'No_correction_forever':
             self._status = Status.WANTS_TO_HELP
             self._ignore_forever()
 
-            response = Statement("Ok I won't bother you with this type of errors again.")
-            response.confidence = 1
+            response = make_confident_statement(response_db['ignore_forever'])
             return response
 
-        elif intent in ('Confirmation', 'Correction'):
+        elif self._intent in ('Confirmation', 'Correction'):
             self._status = Status.WAIT_FOR_CORRECTION
-            response = Statement('Tell me once you have corrected the issue.')
-            response.confidence = 1
+            response = make_confident_statement(response_db['ask_to_correct'])
             return response
         else:
-            response = Statement("Sorry I don't understand you. Can you say this in a different way?")
-            response.confidence = 1
+            response = make_confident_statement(response_db['not_understood'])
             return response
 
-    def _suggest_improvement(self, statement):
+    def _suggest_improvement(self):
         try:
             messages = self._analyze_code()
             print(messages)
             self._n_messages = len(messages)
 
             response = self._get_response(messages)
-            if self._response is not None:
-                response = f'{self._response} {response}'
-                self._response = None
+            response = self._response + response
+            self._response = ''
+
             self._status = Status.EXPECTS_DECISION
-            selected_statement = Statement(response)
-            selected_statement.confidence = 1
-            return selected_statement
+            response = make_confident_statement(response)
+            return response
 
         except ValueError:
             return self._say_goodbye()
@@ -164,48 +159,37 @@ class PylintAdapter(LogicAdapter):
 
     def _store_file(self, statement):
         try:
-            self._filepath = self._find_python_file(statement.text)
-            if not self._is_valid_file(self._filepath):
+            self._filepath = find_python_file(statement.text)
+            if not is_valid_python_file(self._filepath):
                 raise ValueError
             self._status = Status.DETERMINE_PROFICIENCY
-            response = Statement(response_db['file_found'])
-            response.confidence = 1
+            response = make_confident_statement(response_db['file_found'])
             return response
         except (AttributeError, ValueError):
-            response = Statement(response_db['no_file_found'])
-            response.confidence = 1
+            response = make_confident_statement(response_db['no_file_found'])
             return response
-
-    def _find_python_file(self, text):
-        m = re.search(r'\s?([a-zA-Z0-9_\-]+?\.py)[\s\n]?', text)
-        return m.group(1)
 
     def _get_response(self, pylint_output):
         proficiency_templates, message = self._get_first_error_in_db(pylint_output)
-        self._last_send_message_id = message['message-id']
+        self._last_send_message = message
         template = proficiency_templates[self._proficiency_level.value]
         return template.render(message)
 
     def _get_first_error_in_db(self, pylint_output):
         for i, message in enumerate(pylint_output):
-            if i < self._n_errors_to_ignore:
-                continue
-            if message['message-id'] in self._ids_to_ignore:
-                continue
             proficiency_templates = self.templates.get(message['message-id'])
             if proficiency_templates is not None:
+                if i < self._n_errors_to_ignore:
+                    continue
                 return proficiency_templates, message
 
         raise NoMoreErrors()
 
-    def _is_valid_file(self, filepath):
-        return os.path.isfile(filepath) and (os.path.splitext(filepath)[1] == '.py')
-
-    def _determine_proficiency(self, statement):
+    def _determine_proficiency(self):
         try:
             score = self._linter.score(self._filepath)
             self._first_score = score
-        except:
+        except ScoreParsingError:
             self._first_score = 0
         if self._first_score < self._threshold:
             self._proficiency_level = ProficiencyLevels.BEGINNER
@@ -214,27 +198,23 @@ class PylintAdapter(LogicAdapter):
 
         self._status = Status.CONFIRM_PROFICIENCY
         proficiency_str = 'beginner' if self._proficiency_level == ProficiencyLevels.BEGINNER else 'advanced'
-        response = Statement(response_db['encountered_proficiency_level'].format(proficiency_str))
-        response.confidence = 1
+        response = make_confident_statement(response_db['encountered_proficiency_level'].format(proficiency_str))
         return response
 
-    def _confirm_proficiency(self, statement):
-        intent = self._intent_classifier.classify(statement.text)
-        if intent == 'Confirmation':
+    def _confirm_proficiency(self) -> str:
+        if self._intent == 'Confirmation':
             self._status = Status.WANTS_TO_HELP
-            return
+            return ''
 
-        elif intent == 'Rejection':
+        elif self._intent == 'Rejection':
             self._flip_proficiency_level()
             proficiency_str = ' beginner' if self._proficiency_level == ProficiencyLevels.BEGINNER else 'n advanced'
-            response = Statement(
-                'Ok I will treat you as a%s programmer instead. Should I analyze your code now?' % proficiency_str)
+            response = response_db['rejected_proficiency_level'].format(proficiency_str)
             self._status = Status.WANTS_TO_HELP
 
         else:
-            response = Statement('Either reject or agree.')
+            response = make_confident_statement(response_db['no_decision'])
 
-        response.confidence = 1
         return response
 
     def _flip_proficiency_level(self):

@@ -3,7 +3,7 @@ from pylint import epylint as lint
 
 class PylintRC:
 
-    def __init__(self, filename):
+    def __init__(self, filename='pylintrc'):
         self._filepath = os.path.join(os.getcwd(), filename)
         self.create()
 
@@ -75,39 +75,11 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=print-statement,
-        parameter-unpacking,
+disable=parameter-unpacking,
         unpacking-in-except,
-        old-raise-syntax,
         backtick,
         long-suffix,
-        old-ne-operator,
-        old-octal-literal,
-        import-star-module-level,
-        non-ascii-bytes-literal,
-        raw-checker-failed,
-        bad-inline-option,
-        locally-disabled,
-        locally-enabled,
-        file-ignored,
         suppressed-message,
-        useless-suppression,
-        deprecated-pragma,
-        apply-builtin,
-        basestring-builtin,
-        buffer-builtin,
-        cmp-builtin,
-        coerce-builtin,
-        execfile-builtin,
-        file-builtin,
-        long-builtin,
-        raw_input-builtin,
-        reduce-builtin,
-        standarderror-builtin,
-        unicode-builtin,
-        xrange-builtin,
-        coerce-method,
-        delslice-method,
         getslice-method,
         setslice-method,
         no-absolute-import,
@@ -115,7 +87,6 @@ disable=print-statement,
         dict-iter-method,
         dict-view-method,
         next-method-called,
-        metaclass-assignment,
         indexing-exception,
         raising-string,
         reload-builtin,
@@ -147,7 +118,7 @@ disable=print-statement,
         next-method-defined,
         dict-items-not-iterating,
         dict-keys-not-iterating,
-        dict-values-not-iterating
+        dict-values-not-iterating,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
