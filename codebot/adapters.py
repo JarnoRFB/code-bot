@@ -96,20 +96,23 @@ class PylintAdapter(LogicAdapter):
         return response
 
     def _check_correction(self):
-        messages = self._analyze_code()
-        n_messages = len(messages)
-        _, next_message = self._get_first_error_in_db(messages)
-        correction_succeeded = (n_messages != self._n_messages
-                                and self._last_send_message != next_message)
-        if correction_succeeded:
-            self._status = Status.WANTS_TO_HELP
-            response = make_confident_statement(response_db['correction_succeeded'])
-        else:
-            response = make_confident_statement(response_db['correction_failed'])
+        try:
+            messages = self._analyze_code()
+            n_messages = len(messages)
+            _, next_message = self._get_first_error_in_db(messages)
+            correction_succeeded = (n_messages != self._n_messages
+                                    and self._last_send_message != next_message)
+            if correction_succeeded:
+                self._status = Status.WANTS_TO_HELP
+                response = make_confident_statement(response_db['correction_succeeded'])
+            else:
+                response = make_confident_statement(response_db['correction_failed'])
 
-        return response
+            return response
+        except NoMoreErrors:
+            return self._respond_to_no_more_errors()
 
-    def _process_decision(self):
+    def _process_decision(self) -> Statement:
 
         if self._intent == 'No_correction_now' or self._intent == 'Rejection':
             self._status = Status.WANTS_TO_HELP
@@ -119,10 +122,13 @@ class PylintAdapter(LogicAdapter):
 
         elif self._intent == 'No_correction_forever':
             self._status = Status.WANTS_TO_HELP
-            self._ignore_forever()
+            try:
+                self._ignore_forever()
 
-            response = make_confident_statement(response_db['ignore_forever'])
-            return response
+                response = make_confident_statement(response_db['ignore_forever'])
+                return response
+            except NoMoreErrors:
+                return self._respond_to_no_more_errors()
 
         elif self._intent in ('Confirmation', 'Correction'):
             self._status = Status.WAIT_FOR_CORRECTION
@@ -135,7 +141,6 @@ class PylintAdapter(LogicAdapter):
     def _suggest_improvement(self):
         try:
             messages = self._analyze_code()
-            print(messages)
             self._n_messages = len(messages)
 
             response = self._get_response(messages)
