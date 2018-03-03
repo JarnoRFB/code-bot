@@ -1,3 +1,5 @@
+![travis-ci](https://travis-ci.org/JarnoRFB/code-bot.svg?branch=master)
+
 ## Code-bot
 
 The dialogue system Code-bot can be used to check Python code for violations of the
@@ -24,3 +26,4 @@ To run the test suite
 
     $ cd tests
     $ pytest
+

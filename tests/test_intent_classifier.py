@@ -7,7 +7,7 @@ def test_bayesian_intent_classifier():
 
     assert classifier.classify('No dont do that') == 'Rejection'
     assert classifier.classify('yes thats right') == 'Confirmation'
-    assert classifier.classify('I want to exit') == 'Exit'
+    assert classifier.classify('Stop the checking process') == 'Exit'
     assert classifier.classify('ignore this error') == 'No_correction_now'
     assert classifier.classify('ignore this forever') == 'No_correction_forever'
     assert classifier.classify('I want to correct this error') == 'Correction'
