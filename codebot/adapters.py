@@ -2,8 +2,7 @@ from chatterbot.logic import LogicAdapter
 from codebot.codebot_templates import templates
 from chatterbot.conversation import Statement
 from enum import Enum, auto
-from codebot.intent_classifier import DialogFlowIntentClassifier
-from codebot.credentials import credentials
+from codebot.intent_classifier import bayesian_classifier_factory
 from codebot.linter import PyLinter
 from codebot.pylint_run_commands import PylintRC
 from codebot.exceptions import NoMoreErrors, ScoreParsingError
@@ -36,7 +35,7 @@ class PylintAdapter(LogicAdapter):
 
     def __init__(self, **kwargs):
         self._linter = PyLinter(run_commands=PylintRC())
-        self._intent_classifier = DialogFlowIntentClassifier(credentials['project_id'])
+        self._intent_classifier = bayesian_classifier_factory()
 
         self._status = Status.EXPECTS_FILE
         self._proficiency_level = ProficiencyLevels.BEGINNER

@@ -1,0 +1,106 @@
+{
+  "id": "221416a5-3d4c-4ab7-a2b4-a05c626efa31",
+  "name": "Correction",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": [],
+  "userSays": [
+    {
+      "id": "396fe981-53e8-4dc4-99f8-2254db7f05fb",
+      "data": [
+        {
+          "text": "correct the error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "eb264db0-a1b0-481b-ad4d-17af31e87da7",
+      "data": [
+        {
+          "text": "I would like to change it"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "e216215d-b048-4331-b7e3-5376c13a0a70",
+      "data": [
+        {
+          "text": "correct the error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "61b674cb-b3f5-4d7a-a64e-6a7360be1e48",
+      "data": [
+        {
+          "text": "I want to correct it"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "cfccba01-60e7-44fc-91cc-e72088679b7d",
+      "data": [
+        {
+          "text": "correct"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "1308a49d-7a06-4270-9851-3b2c50d87036",
+      "data": [
+        {
+          "text": "i want to correct"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "30af5144-7d57-483d-a07c-c3b5abf6e5ea",
+      "data": [
+        {
+          "text": "I want to change the error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    }
+  ],
+  "followUpIntents": [],
+  "templates": []
+}

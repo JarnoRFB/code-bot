@@ -1,0 +1,180 @@
+{
+  "id": "3dc87d5c-7ac3-477f-9a7c-3df763cb024b",
+  "name": "Rejection",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "cortanaCommand": {
+    "navigateOrService": "NAVIGATE",
+    "target": ""
+  },
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1517583060,
+  "fallbackIntent": false,
+  "events": [],
+  "userSays": [
+    {
+      "id": "8ae57da8-bdfb-4e80-b737-1d69a09e9a24",
+      "data": [
+        {
+          "text": "nay"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "fe747fe6-9204-4eb1-9d8c-197599947f6f",
+      "data": [
+        {
+          "text": "by no means"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "32cd4909-5708-4f26-8fbd-e349dceeedbd",
+      "data": [
+        {
+          "text": "no"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "04727fe6-9140-406b-b7a1-2b4ff468ab8d",
+      "data": [
+        {
+          "text": "I disagree"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "a54e84d0-c090-43de-a814-a97d66c2a366",
+      "data": [
+        {
+          "text": "no way"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "4e970eda-033d-44b0-a95c-6a52cb535a77",
+      "data": [
+        {
+          "text": "not at all"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "b18ed03f-15f8-48ca-8ece-1d547a51b552",
+      "data": [
+        {
+          "text": "I don't think so"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "e4b60dda-7787-4fbc-a3c5-538260a915e8",
+      "data": [
+        {
+          "text": "don't do that"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "3acf5785-cb96-473a-8b26-5c706acd323e",
+      "data": [
+        {
+          "text": "I did not"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "5265df07-1c17-4c2c-a5f2-e1cf06fa6286",
+      "data": [
+        {
+          "text": "never"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "ad21a307-92c3-456a-8b59-3fcc04594a47",
+      "data": [
+        {
+          "text": "absolutely not"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    },
+    {
+      "id": "4c6c099d-3340-4eb6-a457-e6006e92aafa",
+      "data": [
+        {
+          "text": "negative"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583060,
+      "isAuto": false
+    }
+  ],
+  "followUpIntents": [],
+  "templates": []
+}

@@ -1,0 +1,158 @@
+{
+  "id": "d27575a8-607d-482d-b248-d8065e7efc8a",
+  "name": "No_correction_now",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "cortanaCommand": {
+    "navigateOrService": "NAVIGATE",
+    "target": ""
+  },
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1517583340,
+  "fallbackIntent": false,
+  "events": [],
+  "userSays": [
+    {
+      "id": "919820ed-fe59-4758-b080-bdf9482d603c",
+      "data": [
+        {
+          "text": "ignore this error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "0938b10a-80a9-4ddc-a5a3-ebccdb0f7618",
+      "data": [
+        {
+          "text": "Ignore the error for now."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "c10e4df1-888d-450c-899c-6c9a6d5d5da1",
+      "data": [
+        {
+          "text": "i want to ignore the error for now"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "c00b0cdd-e257-4f5a-adde-40719bae79fb",
+      "data": [
+        {
+          "text": "Ignore it"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "5164dab3-7f9f-475c-9080-85da3491eb9a",
+      "data": [
+        {
+          "text": "I want to ignore this error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "ac094a04-77d5-4d0b-9999-c99992116cd2",
+      "data": [
+        {
+          "text": "Ignore the current error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "0b9a8f30-a366-4290-b7dc-523519f32ecc",
+      "data": [
+        {
+          "text": "I want to ignore this error for now."
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "04e5680d-d398-467b-86f8-509e2193b376",
+      "data": [
+        {
+          "text": "no ignore it for now"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "374720e6-73f4-4c06-aebf-d83dabed4989",
+      "data": [
+        {
+          "text": "Move on to the next error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "c4d91688-13fe-40c9-b4fc-886cb705c9b7",
+      "data": [
+        {
+          "text": "What is the next error?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "072d624d-e412-4a3a-982a-88dbd83083c5",
+      "data": [
+        {
+          "text": "Skip this error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    }
+  ],
+  "followUpIntents": [],
+  "templates": []
+}

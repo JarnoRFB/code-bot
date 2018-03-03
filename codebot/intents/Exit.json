@@ -1,0 +1,131 @@
+{
+  "id": "741015c0-b4bb-49ae-8d20-5155a13e5f72",
+  "name": "Exit",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "cortanaCommand": {
+    "navigateOrService": "NAVIGATE",
+    "target": ""
+  },
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1517846660,
+  "fallbackIntent": false,
+  "events": [],
+  "userSays": [
+    {
+      "id": "efe3d365-66b8-4d81-98dd-02e2facb78e8",
+      "data": [
+        {
+          "text": "I would like to stop correcting now"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "1fec5990-e53e-4350-b836-d9a30b521815",
+      "data": [
+        {
+          "text": "Stop"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "7b1f3a04-e8f4-4fac-a1f5-6b2b243b2037",
+      "data": [
+        {
+          "text": "Close the programme"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "0c572e76-ee8e-4f2d-9013-cfcfc497157b",
+      "data": [
+        {
+          "text": "Quit"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "35d23d68-95dd-46e9-a4ce-c849d406d8b4",
+      "data": [
+        {
+          "text": "Stop the checking process"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "2c3d09fe-5f4d-4856-876d-a17c6a6a7724",
+      "data": [
+        {
+          "text": "I would like to exit the correction process"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "3ba69e19-5462-4574-936d-3b6ad71b8bbe",
+      "data": [
+        {
+          "text": "Exit"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    },
+    {
+      "id": "268a38ce-f0b3-4e45-aa1a-9f080ef0f676",
+      "data": [
+        {
+          "text": "Exit the programme"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517846660,
+      "isAuto": false
+    }
+  ],
+  "followUpIntents": [],
+  "templates": []
+}

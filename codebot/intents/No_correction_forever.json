@@ -1,0 +1,179 @@
+{
+  "id": "a01f385d-9787-459e-af96-6d83033242da",
+  "name": "No_correction_forever",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "cortanaCommand": {
+    "navigateOrService": "NAVIGATE",
+    "target": ""
+  },
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1517583760,
+  "fallbackIntent": false,
+  "events": [],
+  "userSays": [
+    {
+      "id": "85d7e383-dcbb-45b1-ade7-26a6cb32aa50",
+      "data": [
+        {
+          "text": "Don't bring up this error again"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "ea888f88-94f1-4839-9f49-c36bfd1064a4",
+      "data": [
+        {
+          "text": "Ignore this type of error for the future"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "921e3047-3081-411a-aab6-e290c45b6296",
+      "data": [
+        {
+          "text": "I don't care about this kind of error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "ffe07992-23a9-4c90-9619-2cbfe91cf671",
+      "data": [
+        {
+          "text": "ignore it forever"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "1c0e2608-fc7a-4097-b6d5-055c4be1a0cd",
+      "data": [
+        {
+          "text": "Can you please ignore this type of error?"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "9c9a47fd-b41b-4524-b98c-69747690fa10",
+      "data": [
+        {
+          "text": "Ignore this error for the current file"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "0f3d4d70-fc9c-4f5f-a3a4-d7b306a8d0c8",
+      "data": [
+        {
+          "text": "Always ignore this error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "df43c420-03ea-44d2-8a2a-6ada3c3f05ac",
+      "data": [
+        {
+          "text": "i dont care about this type of errors",
+          "userDefined": false
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    },
+    {
+      "id": "1ca77ac0-f0ea-4c28-abce-bd4e8b89bdbe",
+      "data": [
+        {
+          "text": "I want you to ignore this type of error"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "d9728054-e8f7-4039-908b-a678e74f0fb9",
+      "data": [
+        {
+          "text": "ignore it forever"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "isAuto": false
+    },
+    {
+      "id": "96c0187b-02c3-4bb9-b021-2ff02e342ec3",
+      "data": [
+        {
+          "text": "Don't raise this error again"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 1517583760,
+      "isAuto": false
+    },
+    {
+      "id": "b6f9e66d-9816-4e97-9cd7-2c2da2c6a8c2",
+      "data": [
+        {
+          "text": "ignore it forever"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0,
+      "updated": 0,
+      "isAuto": false
+    }
+  ],
+  "followUpIntents": [],
+  "templates": []
+}
