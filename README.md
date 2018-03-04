@@ -3,7 +3,7 @@
 ## Code-bot
 
 The dialogue system Code-bot can be used to check Python code for violations of the
-PEP8 coding standard 1 as well as for errors in the code. The purpose of respecting
+PEP8 coding standard as well as for errors in the code. The purpose of respecting
 the PEP8 style guide is to make code more comprehensible to other programmers.
 
 ### Installing dependencies
